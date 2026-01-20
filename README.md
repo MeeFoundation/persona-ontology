@@ -1,2 +1,17 @@
 # idagent-data-model
-Data model used by the Mee identity agent
+
+This Data Model is an application profile over existing OWL ontologies. Its purpose is to define the data model within either the Self or an Identity Context in the Mee Identity Agent.
+
+## Ontologies used
+
+| Prefix | Namespace | Notes |
+|--------|-----------|-------|
+| foaf   | <http://xmlns.com/foaf/0.1/> | Person-related terms |
+| dct    | http://purl.org/dc/terms/ | Metadata only |
+| schema | http://schema.org |       |
+| sh     | http://www.w3.org/ns/schacl# | Metadata only |
+| mee    | http://www.mee.foundation/ontologies/2026/1/mee# | Classes and properties |
+| mee-shacl |        | Constraints on  |
+
+
+
