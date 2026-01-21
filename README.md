@@ -13,7 +13,7 @@ This Data Model is an application profile over existing OWL ontologies. Its purp
 | dct    | http://purl.org/dc/terms/                                | Metadata only                 |
 | schema | http://schema.org                                        | Popular web ontology          |
 | sh     | http://www.w3.org/ns/schacl#                             | Metadata only                 |
-| mee    | http://www.mee.foundation/ontologies/2026/1/mee#         | Classes and properties        |
+| mee    | http://www.mee.foundation/ontologies/mee#                | Classes and properties        |
    
 
 
