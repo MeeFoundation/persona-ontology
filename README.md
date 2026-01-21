@@ -6,12 +6,12 @@ This Data Model is an application profile over existing OWL ontologies. Its purp
 
 | Prefix | Namespace                                                | Notes                         |
 |--------|----------------------------------------------------------|-------------------------------|
-| OBO    | http://purl.obolibrary.org/obo/                          | Upper Ontology                |
+| bfo    | http://purl.obolibrary.org/obo/bfo                       | Basic Formal Ontology         |
 | cco    | http://www.ontologyrepository.com/CommonCoreOntologies/  | Common Core Ontologies        |
 | iao    | http://purl.obolibrary.org/obo/IAO_                      | Information Artifact Ontology |
 | foaf   | http://xmlns.com/foaf/0.1/                               | Person-related terms          |
 | dct    | http://purl.org/dc/terms/                                | Metadata only                 |
-| schema | http://schema.org                                        |                               |
+| schema | http://schema.org                                        | Popular web ontology          |
 | sh     | http://www.w3.org/ns/schacl#                             | Metadata only                 |
 | mee    | http://www.mee.foundation/ontologies/2026/1/mee#         | Classes and properties        |
    
