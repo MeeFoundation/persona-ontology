@@ -92,7 +92,7 @@ cco:SocialSecurityNumber rdf:type owl:Class .
 ###  http://www.example.org#givenName1
 :givenName1 rdf:type owl:NamedIndividual ,
                      cco:GivenName ;
-            iao:has_represntation "Elizabeth" ;
+            iao:has_representation "Elizabeth" ;
             iao:is_about :Elizabeth .
 
 
