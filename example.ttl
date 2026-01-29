@@ -100,7 +100,7 @@ cco:SocialSecurityNumber rdf:type owl:Class .
       cco:has_string_value "123-45-6789"^^xsd:string ;
       cco:has_designation_role cco:PersonalIdentifierRole .
 
-
+###  Names 
 :GivenName_Margery rdf:type owl:NamedIndividual ,
                       cco:GivenName ;
       cco:has_string_value "Margery"^^xsd:string .
