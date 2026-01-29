@@ -1,12 +1,12 @@
+@prefix :      <http://www.example.org#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh:    <http://www.w3.org/ns/shacl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix :      <http://www.example.org#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix mee:   <http://www.mee.foundation/ontologies/mee#> .
+@prefix bfo:   <http://purl.obolibrary.org/obo/BFO_> .
 @prefix cco:   <http://www.ontologyrepository.com/CommonCoreOntologies/> .
-
+@prefix mee:   <http://www.mee.foundation/ontologies/mee#> .
 
 :SSNShape
     a sh:NodeShape ;
@@ -56,7 +56,7 @@
     sh:targetClass cco:Person ; 
 
     sh:property [
-        sh:path cco:has_name ;
+        sh:path bfo:bearer_of;
         sh:or (
 	        [ sh:class cco:LegalName ]   
 	        [ sh:class cco:Alias ]   
