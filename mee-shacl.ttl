@@ -61,6 +61,7 @@
 	        [ sh:class cco:LegalName ]   
 	        [ sh:class cco:Alias ]   
                  [ sh:class cco:EmailAddress ]  
+	        [ sh:class cco:Height ]
         ) ;
     ] ;
     sh:property [

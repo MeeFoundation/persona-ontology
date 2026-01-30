@@ -1,4 +1,5 @@
 @prefix : <http://www.example.org#> .
+@prefix uo: <http://purl.obolibrary.org/obo/UO_> .
 @prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
 @prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
 @prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
@@ -36,12 +37,20 @@ iao:has_represntation rdf:type owl:AnnotationProperty .
 iao:is_about rdf:type owl:AnnotationProperty .
 
 
+###  http://www.ontologyrepository.com/CommonCoreOntologies/has_decimal_value
+cco:has_decimal_value rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designation_role
 cco:has_designation_role rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designator
 cco:has_designator rdf:type owl:AnnotationProperty .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/has_measurement_unit
+cco:has_measurement_unit rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_name
@@ -68,6 +77,10 @@ cco:is_about rdf:type owl:AnnotationProperty .
 cco:is_bearer_of rdf:type owl:AnnotationProperty .
 
 
+###  http://www.ontologyrepository.com/CommonCoreOntologies/is_measurement_of
+cco:is_measurement_of rdf:type owl:AnnotationProperty .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -82,6 +95,10 @@ cco:FamilyName rdf:type owl:Class .
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/GivenName
 cco:GivenName rdf:type owl:Class .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/Height
+cco:Height rdf:type owl:Class .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/LegalName
@@ -120,6 +137,7 @@ cco:SocialSecurityNumber rdf:type owl:Class .
                     cco:Person ;
            bfo:bearer_of :Alias_ElizabethTrevithick ,
                          :EmailAddress_ET ,
+                         :Height_ET ,
                          :LegalName_MargeryElizabethTrevithick ;
            cco:has_designator :PhoneNumber_ET ,
                               :SSN_ET .
@@ -128,7 +146,7 @@ cco:SocialSecurityNumber rdf:type owl:Class .
 ###  http://www.example.org#EmailAddress_ET
 :EmailAddress_ET rdf:type owl:NamedIndividual ,
                           cco:EmailAddress ;
-                 cco:has_text_value "elizabethtrevithick@gmail.com" .
+                 cco:has_text_value "elizabeth.trevithick@gmail.com" .
 
 
 ###  http://www.example.org#FamilyName_Trevithick
@@ -153,6 +171,19 @@ cco:SocialSecurityNumber rdf:type owl:Class .
 :GivenName_Margery rdf:type owl:NamedIndividual ,
                             cco:GivenName ;
                    cco:has_string_value "Margery" .
+
+
+###  http://www.example.org#HeightMeasurement_ET
+:HeightMeasurement_ET rdf:type owl:NamedIndividual ,
+                               cco:MeasurementInformationContentEntity ;
+                      cco:has_decimal_value 68 ;
+                      cco:has_measurement_unit uo:UO_0000010 ;
+                      cco:is_measurement_of :Height_ET .
+
+
+###  http://www.example.org#Height_ET
+:Height_ET rdf:type owl:NamedIndividual ,
+                    cco:Height .
 
 
 ###  http://www.example.org#LegalName_MargeryElizabethTrevithick
