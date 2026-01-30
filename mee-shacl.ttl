@@ -60,13 +60,14 @@
         sh:or (
 	        [ sh:class cco:LegalName ]   
 	        [ sh:class cco:Alias ]   
+                 [ sh:class cco:EmailAddress ]  
         ) ;
     ] ;
     sh:property [
         sh:path cco:has_designator ;
         sh:or (
 	        [ sh:class cco:TelephoneNumber ]   
-	        [ sh:class cco:SocialSecurityNumber ]   
+	        [ sh:class cco:SocialSecurityNumber ] 
         ) ;
     ] ;
 

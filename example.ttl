@@ -20,6 +20,10 @@
 #    Annotation properties
 #################################################################
 
+###  http://purl.obolibrary.org/obo/BFO_bearer_of
+bfo:bearer_of rdf:type owl:AnnotationProperty .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_has_representation
 iao:has_representation rdf:type owl:AnnotationProperty .
 
@@ -32,12 +36,20 @@ iao:has_represntation rdf:type owl:AnnotationProperty .
 iao:is_about rdf:type owl:AnnotationProperty .
 
 
+###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designation_role
+cco:has_designation_role rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designator
 cco:has_designator rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_name
 cco:has_name rdf:type owl:AnnotationProperty .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/has_part
+cco:has_part rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/has_string_value
@@ -57,19 +69,27 @@ cco:is_bearer_of rdf:type owl:AnnotationProperty .
 
 
 #################################################################
-#    Data properties
-#################################################################
-
-###  http://www.mee.foundation/ontologies/mee#ssn
-mee:ssn rdf:type owl:DatatypeProperty .
-
-
-#################################################################
 #    Classes
 #################################################################
 
+###  http://www.ontologyrepository.com/CommonCoreOntologies/Alias
+cco:Alias rdf:type owl:Class .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/FamilyName
+cco:FamilyName rdf:type owl:Class .
+
+
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/GivenName
 cco:GivenName rdf:type owl:Class .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/LegalName
+cco:LegalName rdf:type owl:Class .
+
+
+###  http://www.ontologyrepository.com/CommonCoreOntologies/MiddleName
+cco:MiddleName rdf:type owl:Class .
 
 
 ###  http://www.ontologyrepository.com/CommonCoreOntologies/Person
@@ -88,58 +108,79 @@ cco:SocialSecurityNumber rdf:type owl:Class .
 #    Individuals
 #################################################################
 
-###  http://www.example.org#ETPhoneNumber
-:ETPhoneNumber rdf:type owl:NamedIndividual ,
-                        cco:TelephoneNumber ;
-      cco:has_string_value "+15108146205"^^xsd:string ;
-      cco:has_designation_role cco:MobileTelephoneNumberRole .
-
-
-###  http://www.example.org#ETSSN
-:ETSSN rdf:type owl:NamedIndividual ,
-                cco:SocialSecurityNumber ;
-      cco:has_string_value "123-45-6789"^^xsd:string ;
-      cco:has_designation_role cco:PersonalIdentifierRole .
-
-###  Names 
-:GivenName_Margery rdf:type owl:NamedIndividual ,
-                      cco:GivenName ;
-      cco:has_string_value "Margery"^^xsd:string .
-
-:MiddleName_Elizabeth rdf:type owl:NamedIndividual ,
-                      cco:MiddleName ;
-      cco:has_string_value "Elizabeth"^^xsd:string .
-
-:FamilyName_Trevithick rdf:type owl:NamedIndividual ,
-                      cco:FamilyName ;
-      cco:has_string_value "Trevithick"^^xsd:string .
-
-:LegalName_MargeryElizabethTrevithick rdf:type owl:NamedIndividual ,
-                      cco:LegalName ;
-      cco:has_part :GivenName_Margery ;
-      cco:has_part :MiddleName_Elizabeth ;
-      cco:has_part :FamilyName_Trevithick .
-
-:GivenName_Elizabeth_Alias rdf:type owl:NamedIndividual ,
-                  cco:GivenName ;
-    cco:has_string_value "Elizabeth" .
-
-:FamilyName_Trevithick_Alias rdf:type owl:NamedIndividual ,
-                  cco:FamilyName ;
-    cco:has_string_value "Trevithick" .
-
+###  http://www.example.org#Alias_ElizabethTrevithick
 :Alias_ElizabethTrevithick rdf:type owl:NamedIndividual ,
-                  cco:Alias ;
-      cco:has_part :GivenName_Elizabeth_Alias ;
-      cco:has_part :FamilyName_Trevithick_Alias .
+                                    cco:Alias ;
+                           cco:has_part :FamilyName_Trevithick_Alias ,
+                                        :GivenName_Elizabeth_Alias .
+
 
 ###  http://www.example.org#Elizabeth
 :Elizabeth rdf:type owl:NamedIndividual ,
                     cco:Person ;
-      cco:has_designator :ETPhoneNumber ,
-                              :ETSSN ;
-      bfo:bearer_of :LegalName_MargeryElizabethTrevithick , 
-                              :Alias_ElizabethTrevithick .
+           bfo:bearer_of :Alias_ElizabethTrevithick ,
+                         :EmailAddress_ET ,
+                         :LegalName_MargeryElizabethTrevithick ;
+           cco:has_designator :PhoneNumber_ET ,
+                              :SSN_ET .
+
+
+###  http://www.example.org#EmailAddress_ET
+:EmailAddress_ET rdf:type owl:NamedIndividual ,
+                          cco:EmailAddress ;
+                 cco:has_text_value "elizabethtrevithick@gmail.com" .
+
+
+###  http://www.example.org#FamilyName_Trevithick
+:FamilyName_Trevithick rdf:type owl:NamedIndividual ,
+                                cco:FamilyName ;
+                       cco:has_string_value "Trevithick" .
+
+
+###  http://www.example.org#FamilyName_Trevithick_Alias
+:FamilyName_Trevithick_Alias rdf:type owl:NamedIndividual ,
+                                      cco:FamilyName ;
+                             cco:has_string_value "Trevithick" .
+
+
+###  http://www.example.org#GivenName_Elizabeth_Alias
+:GivenName_Elizabeth_Alias rdf:type owl:NamedIndividual ,
+                                    cco:GivenName ;
+                           cco:has_string_value "Elizabeth" .
+
+
+###  http://www.example.org#GivenName_Margery
+:GivenName_Margery rdf:type owl:NamedIndividual ,
+                            cco:GivenName ;
+                   cco:has_string_value "Margery" .
+
+
+###  http://www.example.org#LegalName_MargeryElizabethTrevithick
+:LegalName_MargeryElizabethTrevithick rdf:type owl:NamedIndividual ,
+                                               cco:LegalName ;
+                                      cco:has_part :FamilyName_Trevithick ,
+                                                   :GivenName_Margery ,
+                                                   :MiddleName_Elizabeth .
+
+
+###  http://www.example.org#MiddleName_Elizabeth
+:MiddleName_Elizabeth rdf:type owl:NamedIndividual ,
+                               cco:MiddleName ;
+                      cco:has_string_value "Elizabeth" .
+
+
+###  http://www.example.org#PhoneNumber_ET
+:PhoneNumber_ET rdf:type owl:NamedIndividual ,
+                         cco:TelephoneNumber ;
+                cco:has_designation_role cco:MobileTelephoneNumberRole ;
+                cco:has_string_value "+15108146205" .
+
+
+###  http://www.example.org#SSN_ET
+:SSN_ET rdf:type owl:NamedIndividual ,
+                 cco:SocialSecurityNumber ;
+        cco:has_designation_role cco:PersonalIdentifierRole ;
+        cco:has_string_value "123-45-6789" .
 
 
 ###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
