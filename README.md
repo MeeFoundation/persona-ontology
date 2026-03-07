@@ -12,7 +12,7 @@ It defines a formal, machine-readable model of a real-world person's identity da
                     and StagingOntology for the Mee Identity Agent
 
 - **`persona-shacl.ttl`** — SHACL (Shapes Constraint Language) rules that define *which* classes and properties are valid and *how* data must be structured. For example:
-  - A `Person` must have designators (name, SSN, phone, email, address)
+  - A `Person` may have designators such as name, SSN, phone, email, address, etc.
   - A `PersonName` must have at least one `GivenName` and exactly one `FamilyName`
   - An `SSN` must match the pattern `\d{3}-\d{2}-\d{4}`
   - A `TemporalRegion` must have a start date
