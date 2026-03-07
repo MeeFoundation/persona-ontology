@@ -50,7 +50,7 @@
 #   http://purl.obolibrary.org/obo/BFO_0000178
 
 #################################################################
-#  Person validation (CHOICE 2)
+#  Person validation
 #  - Enforce Person naming rules.
 #  - Do NOT require SSN/email/phone/address per Person.
 #  - If those nodes exist and are typed, they are validated by their own NodeShapes.
@@ -94,7 +94,7 @@
         ]
     ) ;
 
-    # Optional name components (CHOICE 2: not required; validated by type only)
+    # Optional name components (not required; validated by type only)
     sh:property [
         sh:path <https://purl.org/cco/ont00001879> ;  # designated by
         sh:qualifiedValueShape [
