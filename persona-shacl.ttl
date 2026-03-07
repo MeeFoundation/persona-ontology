@@ -1,97 +1,302 @@
-@prefix :      <http://www.example.org#> .
-@prefix p:     <http://mee.foundation/ontologies/persona#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix bfo:   <http://purl.obolibrary.org/obo/BFO_> .
-@prefix cco:   <http://www.ontologyrepository.com/CommonCoreOntologies/> .
-@prefix po:    <https://purl.org/efo/domains/PersonOntology#> .
+@prefix : <http://www.example.org/shapes#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix po: <https://purl.org/cco/person/> .
+@prefix postal: <https://purl.org/cco/postal-address/> .
+@prefix staging: <https://purl.org/cco/staging/> .
+@prefix paul: <http://www.example.org/paul#> .
 
+# SHACL imports Paul's Application Ontology (which imports the domains)
+<http://www.example.org/shapes> rdf:type owl:Ontology ;
+    owl:imports <http://www.example.org/paul> ;
+    rdfs:label "Paul's SHACL Validation Shapes"@en ;
+    rdfs:comment """SHACL validation shapes for Paul's application.
+                    
+                    This file demonstrates validation against:
+                    - Person Ontology terms
+                    - Postal Address Ontology terms  
+                    - Staging Ontology terms
+                    - CCO core terms (via full IRIs)
+                    
+                    IMPORTANT ARCHITECTURE CHANGE:
+                    Paul's original SHACL used hierarchical PersonName with has_part.
+                    New architecture uses PEER NAMES with direct designated_by relationship.
+                    All name types connect directly to Person, no intermediate PersonName.
+                    
+                    PROPERTY IRIS USED (CCO):
+                    - ont00001879 = designated by (Person ← Name/Address)
+                    - ont00001765 = has text value (Identifier → literal string)
+                    - BFO_0000178 = has continuant part (Address → components)
 
-:OpenEndedTemporalRegionShape
-    a sh:NodeShape ;
-    sh:targetClass bfo:TemporalRegion ;
-    sh:property [
-        sh:path cco:has_start_time ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        sh:datatype xsd:date ;
-    ] ;
-    sh:property [
-        sh:path cco:has_end_time ;
-        sh:maxCount 1 ;
-        sh:datatype xsd:date ;
-    ] .
+                    NOTE ON "REQUIRED" TERMS (CHOICE 2):
+                    The PaulApplicationOntology marks some classes as "required" for the application schema.
+                    In this SHACL file, those terms are NOT required on every Person instance.
+                    Instead, SHACL (a) enforces core name requirements for Person, and (b) validates SSN/email/phone/address
+                    nodes when they are present and typed with the corresponding class.
+"""@en .
+#################################################################
+#  IRI constants used (full IRIs to avoid prefix drift)
+#################################################################
 
-:SSNShape
-    a sh:NodeShape ;
-    sh:targetClass cco:SocialSecurityNumber ;
-    sh:property [
-        sh:path cco:has_string_value ;
-        sh:datatype xsd:string ;
-        sh:pattern "^\\d{3}-\\d{2}-\\d{4}$" ;
-    ] .
+# CCO: designated by (Person <- Identifier/Name/etc.)
+#   https://purl.org/cco/ont00001879
+# CCO: has text value (Identifier -> literal string)
+#   https://purl.org/cco/ont00001765
+# BFO: has continuant part (Address -> components)
+#   http://purl.obolibrary.org/obo/BFO_0000178
 
-:LegalNameShape
-    a sh:NodeShape ;
-    sh:targetClass cco:PersonName ;  # applies to all names, including LegalName and Alias
-
-    # must have at least one GivenName
-    sh:property [
-        sh:path cco:has_part ;
-        sh:qualifiedMinCount 1 ;
-        sh:qualifiedValueShape [
-            sh:class cco:GivenName
-        ] ;
-        sh:qualifiedMaxCount 2  # optional: for middle name as second given name
-    ] ;
-
-    # may have one optional MiddleName
-    sh:property [
-        sh:path cco:has_part ;
-        sh:qualifiedMinCount 0 ;
-        sh:qualifiedMaxCount 1 ;
-        sh:qualifiedValueShape [
-            sh:class cco:MiddleName
-        ] ;
-    ] ;
-
-    # must have exactly one FamilyName
-    sh:property [
-        sh:path cco:has_part ;
-        sh:qualifiedMinCount 1 ;
-        sh:qualifiedMaxCount 1 ;
-        sh:qualifiedValueShape [
-            sh:class cco:FamilyName
-        ] ;
-    ] .
+#################################################################
+#  Person validation (CHOICE 2)
+#  - Enforce Person naming rules.
+#  - Do NOT require SSN/email/phone/address per Person.
+#  - If those nodes exist and are typed, they are validated by their own NodeShapes.
+#################################################################
 
 :PersonShape
     a sh:NodeShape ;
-    sh:targetClass cco:Person ; 
+    sh:targetClass <https://purl.org/cco/ont00001262> ;  # Person
+    sh:message "Person must have either FullName OR (GivenName + FamilyName). Other designators are validated when present and typed."@en ;
 
+    # Name Requirement: EITHER FullName OR (GivenName AND FamilyName)
+    # Using qualified constraints avoids accidentally forcing *all* designated_by values to be name values.
+    sh:or (
+        [
+            sh:property [
+                sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+                sh:qualifiedValueShape [ sh:class po:FullName ] ;
+                sh:qualifiedMinCount 1 ;
+                sh:message "Person must be designated by at least one FullName, OR provide GivenName + FamilyName."@en
+            ]
+        ]
+        [
+            sh:and (
+                [
+                    sh:property [
+                        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+                        sh:qualifiedValueShape [ sh:class po:GivenName ] ;
+                        sh:qualifiedMinCount 1 ;
+                        sh:message "If no FullName is provided, Person must be designated by at least one GivenName."@en
+                    ]
+                ]
+                [
+                    sh:property [
+                        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+                        sh:qualifiedValueShape [ sh:class po:FamilyName ] ;
+                        sh:qualifiedMinCount 1 ;
+                        sh:message "If no FullName is provided, Person must be designated by at least one FamilyName."@en
+                    ]
+                ]
+            )
+        ]
+    ) ;
+
+    # Optional name components (CHOICE 2: not required; validated by type only)
     sh:property [
-        sh:path bfo:bearer_of;
-        sh:or (
-	        [ sh:class cco:Height ]
-	        [ sh:class p:EyeColor ]
-        ) ;
-    ] ;
-    sh:property [
-        sh:path cco:has_designator ;
-        sh:or (
-	   [ sh:class cco:TelephoneNumber ]   
-	   [ sh:class cco:SocialSecurityNumber ] 
-	   [ sh:class po:LegalName ]   
-	   [ sh:class cco:Alias ]   
-            [ sh:class cco:EmailAddress ]  
-            [ sh:class cco:PostalAddress ]
-        ) ;
+        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+        sh:qualifiedValueShape [
+            sh:or (
+                [ sh:class po:AdditionalName ]
+                [ sh:class po:Suffix ]
+                [ sh:class po:AlternateName ]
+                [ sh:class <https://purl.org/cco/ont00000990> ]  # Nickname
+                [ sh:class <https://purl.org/cco/ont00001331> ]  # Legal Name
+            )
+        ] ;
+        sh:qualifiedMaxCount 50 ;
+        sh:message "Optional name designators are allowed (up to 50 total across these types)."@en
     ] ;
 
-  
-    sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) ;
-    .
+    # Optional: SSN is allowed (0..1). Validity is enforced by :SSNShape on SSN nodes.
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+        sh:qualifiedValueShape [ sh:class po:SocialSecurityNumber ] ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "At most one SocialSecurityNumber may be attached to a Person."@en
+    ] ;
+
+    # Optional: email addresses (0..many). Validity is enforced by :EmailAddressShape on EmailAddress nodes.
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+        sh:qualifiedValueShape [ sh:class staging:EmailAddress ] ;
+        sh:qualifiedMaxCount 20 ;
+        sh:message "EmailAddress values are optional; if present and typed, they must validate."@en
+    ] ;
+
+    # Optional: telephone numbers (0..many). Validity is enforced by :TelephoneNumberShape on TelephoneNumber nodes.
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+        sh:qualifiedValueShape [ sh:class staging:TelephoneNumber ] ;
+        sh:qualifiedMaxCount 20 ;
+        sh:message "TelephoneNumber values are optional; if present and typed, they must validate."@en
+    ] ;
+
+    # Optional: US postal address (0..1). Validity is enforced by :USPostalAddressShape on address nodes.
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001879> ;  # designated by
+        sh:qualifiedValueShape [ sh:class postal:USPostalAddress ] ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "USPostalAddress is optional; if present and typed, it must validate."@en
+    ] .
+
+#################################################################
+#  SSN validation
+#################################################################
+
+:SSNShape
+    a sh:NodeShape ;
+    sh:targetClass po:SocialSecurityNumber ;
+    sh:message "Social Security Number must follow NNN-NN-NNNN format."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d{3}-\\d{2}-\\d{4}$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "SSN must be exactly 9 digits in NNN-NN-NNNN format (e.g., 123-45-6789)."@en
+    ] .
+
+#################################################################
+#  Email validation
+#################################################################
+
+:EmailAddressShape
+    a sh:NodeShape ;
+    sh:targetClass staging:EmailAddress ;
+    sh:message "Email must be a single string like local-part@domain (basic validation)."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Must be valid email format: local-part@domain"@en
+    ] .
+
+#################################################################
+#  Telephone validation
+#################################################################
+
+:TelephoneNumberShape
+    a sh:NodeShape ;
+    sh:targetClass staging:TelephoneNumber ;
+    sh:message "Telephone number should follow E.164 format (recommended)."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\+?[1-9]\\d{1,14}$" ;  # E.164: +[country][number]
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Recommended format: +15551234567 (E.164)."@en
+    ] .
+
+#################################################################
+#  US Postal Address validation (qualified parts)
+#################################################################
+
+:USPostalAddressShape
+    a sh:NodeShape ;
+    sh:targetClass postal:USPostalAddress ;
+    sh:message "US Postal Address must have required components (street, city, state, ZIP). Country is optional."@en ;
+
+    # Exactly one StreetAddress part
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000178> ;  # has continuant part
+        sh:qualifiedValueShape [ sh:class postal:StreetAddress ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "Must have exactly one StreetAddress part."@en
+    ] ;
+
+    # Exactly one CityName part
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000178> ;  # has continuant part
+        sh:qualifiedValueShape [ sh:class postal:CityName ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "Must have exactly one CityName part."@en
+    ] ;
+
+    # Exactly one StateName part
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000178> ;  # has continuant part
+        sh:qualifiedValueShape [ sh:class postal:StateName ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "Must have exactly one StateName part."@en
+    ] ;
+
+    # Exactly one PostalCode part
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000178> ;  # has continuant part
+        sh:qualifiedValueShape [ sh:class postal:PostalCode ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "Must have exactly one PostalCode part."@en
+    ] ;
+
+    # Optional CountryName part (0..1)
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000178> ;  # has continuant part
+        sh:qualifiedValueShape [ sh:class postal:CountryName ] ;
+        sh:qualifiedMaxCount 1 ;
+        sh:message "May have at most one CountryName part."@en
+    ] .
+
+#################################################################
+#  Component validations (if present and typed)
+#  These are optional but help catch bad literals when the parts are modeled as identifiers.
+#################################################################
+
+:USStateNameShape
+    a sh:NodeShape ;
+    sh:targetClass postal:StateName ;
+    sh:message "State must be a valid US/USPS 2-letter abbreviation."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:in ("AL" "AK" "AZ" "AR" "CA" "CO" "CT" "DE" "FL" "GA"
+               "HI" "ID" "IL" "IN" "IA" "KS" "KY" "LA" "ME" "MD"
+               "MA" "MI" "MN" "MS" "MO" "MT" "NE" "NV" "NH" "NJ"
+               "NM" "NY" "NC" "ND" "OH" "OK" "OR" "PA" "RI" "SC"
+               "SD" "TN" "TX" "UT" "VT" "VA" "WA" "WV" "WI" "WY"
+               "DC" "AS" "GU" "MP" "PR" "VI" "AA" "AE" "AP") ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Must use a valid USPS 2-letter state/territory abbreviation."@en
+    ] .
+
+:ZIPCodeShape
+    a sh:NodeShape ;
+    sh:targetClass postal:PostalCode ;
+    sh:message "ZIP Code must be 5-digit or ZIP+4 format."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\d{5}(-\\d{4})?$" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Must be 5-digit ZIP (NNNNN) or ZIP+4 (NNNNN-NNNN) format."@en
+    ] .
+
+:USACountryNameShape
+    a sh:NodeShape ;
+    sh:targetClass postal:CountryName ;
+    sh:message "If country is present, it must indicate the United States (controlled list)."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:in ("USA" "US" "UNITED STATES" "UNITED STATES OF AMERICA") ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "If specified, must be USA/US/UNITED STATES (controlled list)."@en
+    ] .

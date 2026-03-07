@@ -16,20 +16,7 @@ It defines a formal, machine-readable model of a real-world person's identity da
   - An `SSN` must match the pattern `\d{3}-\d{2}-\d{4}`
   - A `TemporalRegion` must have a start date
 
-- **`example.ttl`** — A concrete RDF instance of a person ("Margery Elizabeth Trevithick", who goes by "Elizabeth Trevithick") showing how the ontology is used in practice, with her name, SSN, phone, email, home address, height, and address tenure.
+- **`example.ttl`** — A concrete RDF instance of a person ("Margery Alice Walker", who goes by "Alice Walker") showing how the ontology is used in practice, with her name, SSN, phone, email, home address, height, and address tenure.
 
 - **`Person-Ontology-dev.ttl`** — A local copy of the upstream IEEE Person Ontology.
 
-## Ontologies used
-
-| Prefix | Namespace                                                | Notes                         | Local file with link to source                                                                                                                                                     |
-|--------|----------------------------------------------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bfo    | http://purl.obolibrary.org/obo/BFO_                      | Basic Formal Ontology         | |
-| cco    | http://www.ontologyrepository.com/CommonCoreOntologies/  | Common Core Ontologies        | | 
-| uo     | http://purl.obolibrary.org/obo/UO_                       | Units Ontology                | |
-| po     | https://purl.org/efo/domains/PersonOntology              | Person Ontology               | [PersonOntology-dev.ttl](https://opensource.ieee.org/po/person-ontology-project/-/raw/master/dev/Person-Ontology-dev.ttl?ref_type=heads)                                     |
-| iao    | http://purl.obolibrary.org/obo/IAO_                      | Information Artifact Ontology | | 
-| dct    | http://purl.org/dc/terms/                                | Metadata only                 | | 
-| sh     | http://www.w3.org/ns/schacl#                             | Metadata only                 | | 
-| p      | http://www.mee.foundation/ontologies/persona#            | Not yet used                  | [persona.ttl](https://raw.githubusercontent.com/MeeFoundation/persona-ontology/refs/heads/main/persona.ttl)                                                                  | 
-   

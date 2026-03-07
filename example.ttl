@@ -1,328 +1,203 @@
-@prefix : <http://www.example.org#> .
-@prefix p: <http://mee.foundation/ontologies/persona#> .
-@prefix po: <https://purl.org/efo/domains/PersonOntology#> .
-@prefix uo: <http://purl.obolibrary.org/obo/UO_> .
-@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
-@prefix cco: <http://www.ontologyrepository.com/CommonCoreOntologies/> .
-@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix : <http://www.example.org/mee#> .
+@prefix persona: <http://mee.foundation/ontologies/persona#> .
+@prefix po: <https://purl.org/cco/person/> .
+@prefix postal: <https://purl.org/cco/postal-address/> .
+@prefix staging: <https://purl.org/cco/staging/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.example.org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@base <http://www.example.org/mee> .
 
-<http://www.example.org#> rdf:type owl:Ontology ;
-                           owl:imports <http://www.ontologyrepository.com/CommonCoreOntologies/Mid/2024-11-03/AllCoreOntology> ,
-                                       <https://purl.org/efo/domains/PersonOntology> .
-
-#################################################################
-#    Annotation properties
-#################################################################
-
-###  http://purl.obolibrary.org/obo/BFO_bearer_of
-bfo:bearer_of rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.obolibrary.org/obo/BFO_has_participant
-bfo:has_participant rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.obolibrary.org/obo/BFO_occurs_during
-bfo:occurs_during rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designation_role
-cco:has_designation_role rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_designator
-cco:has_designator rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_measurement_unit
-cco:has_measurement_unit rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_part
-cco:has_part rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_start_time
-cco:has_start_time rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/has_string_value
-cco:has_string_value rdf:type owl:AnnotationProperty .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/is_measurement_of
-cco:is_measurement_of rdf:type owl:AnnotationProperty .
+<http://www.example.org/mee> rdf:type owl:Ontology ;
+    owl:imports <http://mee.foundation/ontologies/persona> ;
+    rdfs:label "Alice Walker - Example Instance Data"@en ;
+    rdfs:comment """Example instance data for a hypothetical user, Alice Walker, of the Mee Identity Agent 
+                    demonstrating the Mee Foundation Persona Ontology in practice.
+                    
+                    Person Details:
+                    - Legal Name: Margery Alice Walker  
+                    - Goes By: Alice Walker
+                    - SSN: 123-45-6788
+                    - Email: awalker@gmail.com
+                    - Phone: +15108149999
+                    - Address: 123 Sleepy Hollow, Paradise, CA 95969, USA
+                    - Eye Color: Blue
+                    - Height: 68 inches
+                    
+                    DEMONSTRATES:
+                    - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
+                    - New properties (ont00001879 designated by, ont00001765 has text value)
+                    - Slash URIs for all domain classes
+                    - EyeColor extension usage
+                    - Structured postal address with BFO_0000178 (has continuant part)"""@en .
 
 
 #################################################################
-#    Datatypes
+#    Alice Walker - Person Instance
 #################################################################
 
-###  http://www.w3.org/2001/XMLSchema#date
-xsd:date rdf:type rdfs:Datatype .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  http://purl.obolibrary.org/obo/BFO_Process
-bfo:Process rdf:type owl:Class .
-
-
-###  http://purl.obolibrary.org/obo/BFO_Site
-bfo:Site rdf:type owl:Class .
-
-
-###  http://purl.obolibrary.org/obo/BFO_TemporalRegion
-bfo:TemporalRegion rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/Alias
-cco:Alias rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/CityName
-cco:CityName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/CountryName
-cco:CountryName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/EmailAddress
-cco:EmailAddress rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/FamilyName
-cco:FamilyName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/GivenName
-cco:GivenName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/Height
-cco:Height rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/MeasurementInformationContentEntity
-cco:MeasurementInformationContentEntity rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/MiddleName
-cco:MiddleName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/Person
-cco:Person rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/PostalAddress
-cco:PostalAddress rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/PostalCode
-cco:PostalCode rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/SocialSecurityNumber
-cco:SocialSecurityNumber rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/StateName
-cco:StateName rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/StreetAddress
-cco:StreetAddress rdf:type owl:Class .
-
-
-###  http://www.ontologyrepository.com/CommonCoreOntologies/TelephoneNumber
-cco:TelephoneNumber rdf:type owl:Class .
-
-
-###  http://mee.foundation/ontologies/persona#EyeColor
-p:EyeColor rdf:type owl:Class .
-
-
-###  http://mee.foundation/ontologies/persona#BlueEyeColor
-p:BlueEyeColor rdf:type owl:Class ;
-               rdfs:subClassOf p:EyeColor .
-
-
-###  https://purl.org/efo/domains/PersonOntology#LegalName
-po:LegalName rdf:type owl:Class .
-
-
-###  https://www.commoncoreontologies.org/ont00000388
-<https://www.commoncoreontologies.org/ont00000388> rdf:type owl:Class .
+###  Person: Alice Walker
+:Alice_Walker rdf:type owl:NamedIndividual ,
+                       <https://purl.org/cco/ont00001262> ;  # Person
+    rdfs:label "Alice Walker"@en ;
+    rdfs:comment "Person instance demonstrating NEW architecture with peer names."@en ;
+    
+    # PEER NAMES (No hierarchical PersonName)
+    # Legal name: Margery Alice Walker
+    # Goes by: Alice Walker
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → GivenName (legal first name)
+        rdf:type po:GivenName ;
+        <https://purl.org/cco/ont00001765> "Margery"  # has text value
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → AdditionalName (middle name, but also goes by "Elizabeth")
+        rdf:type po:AdditionalName ;
+        <https://purl.org/cco/ont00001765> "Elizabeth"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
+        rdf:type po:FamilyName ;
+        <https://purl.org/cco/ont00001765> "Walker"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → AlternateName (preferred name)
+        rdf:type po:AlternateName ;
+        <https://purl.org/cco/ont00001765> "Alice Walker" ;
+        rdfs:comment "Name she goes by professionally and socially"@en
+    ] ;
+    
+    # IDENTIFIERS
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → SSN
+        rdf:type po:SocialSecurityNumber ;
+        <https://purl.org/cco/ont00001765> "123-45-6788"
+    ] ;
+    
+    # CONTACT INFORMATION
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → Email
+        rdf:type staging:EmailAddress ;
+        <https://purl.org/cco/ont00001765> "awalker@gmail.com"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → Phone
+        rdf:type staging:TelephoneNumber ;
+        <https://purl.org/cco/ont00001765> "+15108149999" ;
+        rdfs:comment "E.164 format (international standard)"@en
+    ] ;
+    
+    # POSTAL ADDRESS
+    
+    <https://purl.org/cco/ont00001879> :Home_Address_Paradise ;  # designated by → Address
+    
+    # PHYSICAL CHARACTERISTICS
+    
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Height
+        rdf:type <https://purl.org/cco/ont00000367> ;  # Height (CCO Quality)
+        rdfs:comment "Height measurement: 68 inches (5'8\")"@en ;
+        <https://purl.org/cco/ont00001689> [  # has measurement
+            rdf:type <https://purl.org/cco/ont00001243> ;  # Measurement Information Content Entity
+            <https://purl.org/cco/ont00001765> "68"^^xsd:decimal ;
+            <https://purl.org/cco/ont00001729> <http://purl.obolibrary.org/obo/UO_0000010>  # unit: inch
+        ]
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Eye Color
+        rdf:type persona:BlueEyeColor ;
+        rdfs:comment "Eye color: Blue (using Mee extension class)"@en
+    ] .
 
 
 #################################################################
-#    Individuals
+#    US Postal Address Instance
 #################################################################
 
-###  http://www.example.org#AA_Alice
-:AA_Alice rdf:type owl:NamedIndividual ,
-                   cco:Person ;
-          bfo:bearer_of :Height_AW ,
-                        :EyeColor_AW ;
-          cco:has_designator :Alias_AliceWalker ,
-                             :EmailAddress_AW ,
-                             :HomeAddress_AW ,
-                             :LegalName_MargeryAliceWalker ,
-                             :PhoneNumber_AW ,
-                             :SSN_AW .
+###  Home Address: 123 Sleepy Hollow, Paradise, CA 95969, USA
+:Home_Address_Paradise rdf:type owl:NamedIndividual ,
+                               postal:USPostalAddress ;
+    rdfs:label "Home Address - Paradise, CA"@en ;
+    rdfs:comment "Primary residential address using NEW architecture with has continuant part."@en ;
+    
+    # ADDRESS COMPONENTS (using BFO_0000178 has continuant part)
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Street
+        rdf:type postal:StreetAddress ;
+        <https://purl.org/cco/ont00001765> "123 Sleepy Hollow"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → City
+        rdf:type postal:CityName ;
+        <https://purl.org/cco/ont00001765> "Paradise"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → State
+        rdf:type postal:StateName ;
+        <https://purl.org/cco/ont00001765> "CA" ;
+        rdfs:comment "USPS 2-letter state code"@en
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → ZIP
+        rdf:type postal:PostalCode ;
+        <https://purl.org/cco/ont00001765> "95969" ;
+        rdfs:comment "5-digit ZIP code"@en
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Country
+        rdf:type postal:CountryName ;
+        <https://purl.org/cco/ont00001765> "USA" ;
+        rdfs:comment "Country name (optional for US addresses)"@en
+    ] .
 
 
-###  http://www.example.org#AddressBearing_2025_Present
-:AddressBearing_2025_Present rdf:type owl:NamedIndividual ,
-                                      bfo:Process ;
-                             bfo:has_participant :AA_Alice ,
-                                                :HomeAddress_AW ;
-                             bfo:occurs_during :Interval_2025_Present .
+#################################################################
+#    ARCHITECTURE COMPARISON NOTES
+#################################################################
+
+# OLD Architecture (IEEE Person Ontology):
+# ----------------------------------------
+# Used hierarchical PersonName with has_part:
+#
+# :PersonName_MargeryWalker rdf:type po:PersonName ;
+#     cco:has_part :GivenName_Margery ;
+#     cco:has_part :MiddleName_Alice ;
+#     cco:has_part :FamilyName_Walker .
+#
+# :Alice_Walker cco:has_designator :PersonName_MargeryWalker .
+#
+# Problems:
+# - Implies FullName = concatenation of parts
+# - Rigid structure
+# - Hash URIs (no content negotiation)
+# - Conflicts with international standards
 
 
-###  http://www.example.org#Alias_AliceWalker
-:Alias_AliceWalker rdf:type owl:NamedIndividual ,
-                            cco:Alias ;
-                   cco:has_part :FamilyName_Walker_Alias ,
-                                :GivenName_Alice_Alias .
+# NEW Architecture (PersonOntology 2.0):
+# ---------------------------------------
+# Uses peer names with designated by:
+#
+# :Alice_Walker ont00001879 [ rdf:type po:GivenName ; ont00001765 "Margery" ] ;
+#               ont00001879 [ rdf:type po:FamilyName ; ont00001765 "Walker" ] .
+#
+# Benefits:
+# - Flexible (can use FullName OR components OR both)
+# - FullName is "how person writes their name" (not automatic concat)
+# - Slash URIs (content negotiation enabled)
+# - Aligns with Schema.org, FHIR, OpenID, IANA
+# - Handles international naming patterns
 
 
-###  http://www.example.org#City_Concord
-:City_Concord rdf:type owl:NamedIndividual ,
-                       cco:CityName ;
-              cco:has_text_value "Concord" .
+# PROPERTY CHANGES:
+# -----------------
+# OLD: cco:has_designator → NEW: ont00001879 (designated by)
+# OLD: cco:has_part → NEW: BFO_0000178 (has continuant part) 
+# OLD: cco:has_string_value → NEW: ont00001765 (has text value)
+# OLD: (not specified) → NEW: BFO_0000196 (bearer of) for qualities
 
 
-###  http://www.example.org#Country_USA
-:Country_USA rdf:type owl:NamedIndividual ,
-                      cco:CountryName ;
-             cco:has_text_value "United States" .
-
-
-###  http://www.example.org#EmailAddress_AW
-:EmailAddress_AW rdf:type owl:NamedIndividual ,
-                          cco:EmailAddress ;
-                 cco:has_text_value "awalker@gmail.com" .
-
-
-###  http://www.example.org#FamilyName_Walker
-:FamilyName_Walker rdf:type owl:NamedIndividual ,
-                            cco:FamilyName ;
-                   cco:has_string_value "Walker" .
-
-
-###  http://www.example.org#FamilyName_Walker_Alias
-:FamilyName_Walker_Alias rdf:type owl:NamedIndividual ,
-                                  cco:FamilyName ;
-                         cco:has_string_value "Walker" .
-
-
-###  http://www.example.org#GivenName_Alice_Alias
-:GivenName_Alice_Alias rdf:type owl:NamedIndividual ,
-                                cco:GivenName ;
-                       cco:has_string_value "Alice" .
-
-
-###  http://www.example.org#GivenName_Margery
-:GivenName_Margery rdf:type owl:NamedIndividual ,
-                            cco:GivenName ;
-                   cco:has_string_value "Margery" .
-
-
-###  http://www.example.org#HeightMeasurement_AW
-:HeightMeasurement_AW rdf:type owl:NamedIndividual ,
-                               cco:MeasurementInformationContentEntity ;
-                      cco:has_decimal_value 68 ;
-                      cco:has_measurement_unit uo:UO_0000010 ;
-                      cco:is_measurement_of :Height_AW .
-
-
-###  http://www.example.org#EyeColor_AW
-:EyeColor_AW rdf:type owl:NamedIndividual ,
-                      p:BlueEyeColor .
-
-
-###  http://www.example.org#Height_AW
-:Height_AW rdf:type owl:NamedIndividual ,
-                    cco:Height .
-
-
-###  http://www.example.org#HomeAddress_AW
-:HomeAddress_AW rdf:type owl:NamedIndividual ,
-                         cco:PostalAddress ;
-                cco:designates :Residence_AW ;
-                cco:has_part :City_Concord ,
-                             :Country_USA ,
-                             :PostalCode_95969 ,
-                             :State_CA ,
-                             :Street_Sleepy .
-
-
-###  http://www.example.org#Interval_2025_Present
-:Interval_2025_Present rdf:type owl:NamedIndividual ,
-                                bfo:TemporalRegion ;
-                       cco:has_start_time "2025-09-01"^^xsd:date .
-
-
-###  http://www.example.org#LegalName_MargeryAliceWalker
-:LegalName_MargeryAliceWalker rdf:type owl:NamedIndividual ,
-                                       po:LegalName ;
-                              cco:has_part :FamilyName_Walker ,
-                                           :GivenName_Margery ,
-                                           :MiddleName_Alice .
-
-
-###  http://www.example.org#MiddleName_Alice
-:MiddleName_Alice rdf:type owl:NamedIndividual ,
-                           cco:MiddleName ;
-                  cco:has_string_value "Alice" .
-
-
-###  http://www.example.org#PhoneNumber_AW
-:PhoneNumber_AW rdf:type owl:NamedIndividual ,
-                         cco:TelephoneNumber ;
-                cco:has_designation_role cco:MobileTelephoneNumberRole ;
-                cco:has_string_value "+15108149999" .
-
-
-###  http://www.example.org#PostalCode_95969
-:PostalCode_95969 rdf:type owl:NamedIndividual ,
-                           cco:PostalCode ;
-                  cco:has_text_value "95969" .
-
-
-###  http://www.example.org#Residence_AW
-:Residence_AW rdf:type owl:NamedIndividual ,
-                       bfo:Site .
-
-
-###  http://www.example.org#SSN_AW
-:SSN_AW rdf:type owl:NamedIndividual ,
-                 cco:SocialSecurityNumber ;
-        cco:has_designation_role cco:PersonalIdentifierRole ;
-        cco:has_string_value "123-45-6788" .
-
-
-###  http://www.example.org#State_CA
-:State_CA rdf:type owl:NamedIndividual ,
-                   cco:StateName ;
-          cco:has_text_value "CA" .
-
-
-###  http://www.example.org#Street_Sleepy
-:Street_Sleepy rdf:type owl:NamedIndividual ,
-                        cco:StreetAddress ;
-               cco:has_text_value "123 Sleepy Hollow" .
-
-
-###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
+# EXTENSION EXAMPLE:
+# ------------------
+# EyeColor is a Mee-specific extension in persona.ttl
+# May be promoted to PersonOntology if proven useful
+# This demonstrates bottom-up innovation model

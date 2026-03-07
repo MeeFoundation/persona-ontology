@@ -1,0 +1,124 @@
+@prefix : <https://purl.org/cco/staging#> .
+@prefix staging: <https://purl.org/cco/staging/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <https://purl.org/cco/staging#> .
+
+<https://purl.org/cco/staging> rdf:type owl:Ontology ;
+    owl:versionIRI <https://purl.org/cco/staging/2026-02-22> ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo.owl> ,
+                <https://purl.org/cco/InformationEntityOntology> ;
+    dc:creator "Global Research, Inc., a 501(c)(3) nonprofit organization"@en ;
+    dc:date "2026-02-22"^^xsd:date ;
+    dcterms:license <https://opensource.org/licenses/BSD-3-Clause> ;
+    owl:versionInfo "Copyright © 2026 Global Research, Inc."@en ;
+    rdfs:label "Staging Ontology"@en ;
+    rdfs:comment "Staging Ontology extends from the open source Common Core Ontologies (CCO)."@en .
+
+
+#################################################################
+#    Annotation Properties
+#################################################################
+
+staging:migrationTarget rdf:type owl:AnnotationProperty ;
+    rdfs:label "migration target"@en ;
+    rdfs:comment "Indicates the target ontology where this term should eventually be migrated."@en ;
+    rdfs:domain owl:Class ;
+    rdfs:range rdfs:Literal .
+
+staging:stagingReason rdf:type owl:AnnotationProperty ;
+    rdfs:label "staging reason"@en ;
+    rdfs:comment "Explains why this term is in staging rather than an approved domain ontology."@en ;
+    rdfs:domain owl:Class ;
+    rdfs:range rdfs:Literal .
+
+staging:stagingDate rdf:type owl:AnnotationProperty ;
+    rdfs:label "staging date"@en ;
+    rdfs:comment "Date when term was added to staging ontology."@en ;
+    rdfs:domain owl:Class ;
+    rdfs:range xsd:date .
+
+staging:proposalStatus rdf:type owl:AnnotationProperty ;
+    rdfs:label "proposal status"@en ;
+    rdfs:comment "Current status of proposal to migrate this term to permanent home."@en ;
+    rdfs:domain owl:Class ;
+    rdfs:range rdfs:Literal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://purl.org/cco/staging/TelephoneNumber
+
+staging:TelephoneNumber rdf:type owl:Class ;
+    rdfs:subClassOf <https://purl.org/cco/ont00000077> ;  # Code Identifier
+    owl:disjointWith staging:EmailAddress ;
+    rdfs:label "Telephone Number"@en ;
+    skos:altLabel "Phone Number"@en ;
+    skos:definition """A Code Identifier representing numeric sequence designating telecommunications 
+                       endpoint, formatted per international standards such as E.164."""@en ;
+    skos:example "The string '+15551234567' in E.164 format designates a telephone number."@en ;
+    skos:scopeNote """TelephoneNumber designates a Telecommunication Endpoint (an artifact 
+                      defined in CCO ArtifactOntology). The number itself is information; 
+                      the endpoint is the physical/cyber infrastructure being designated. 
+                      TelephoneNumbers are not person-specific; they can designate endpoints 
+                      for persons, organizations, or locations. Format typically follows E.164 
+                      international standard (+[country code][subscriber number])."""@en ;
+    staging:migrationTarget "Communication/Contact Ontology (proposed IEEE P3195.1.x). Alternative: CCO InformationEntityOntology as subclass of CodeIdentifier."@en ;
+    staging:stagingReason "No existing domain ontology covers telecommunications identifiers. CCO has Telecommunication Endpoint (artifact) in ArtifactOntology but lacks the identifier class. Awaiting Communication/Contact domain ontology formation."@en ;
+    staging:stagingDate "2026-02-18"^^xsd:date ;
+    staging:proposalStatus "Awaiting Communication/Contact working group formation 2026-Q2"@en ;
+    dcterms:created "2026-02-18"^^xsd:date ;
+    dc:creator "Global Research, Inc."@en ;
+    rdfs:isDefinedBy <https://purl.org/cco/staging> .
+
+
+###  https://purl.org/cco/staging/EmailAddress
+
+staging:EmailAddress rdf:type owl:Class ;
+    rdfs:subClassOf <https://purl.org/cco/ont00000077> ;  # Code Identifier
+    owl:disjointWith staging:TelephoneNumber ;
+    rdfs:label "Email Address"@en ;
+    skos:altLabel "E-mail Address"@en ,
+                  "Electronic Mail Address"@en ;
+    skos:definition """A Code Identifier designating electronic mailbox for receiving email messages, 
+                       formatted according to RFC 5322 as local-part@domain."""@en ;
+    skos:example "The string 'john.doe@example.com' designates an email address."@en ;
+    skos:scopeNote """EmailAddress designates an Email Box (artifact defined in CCO ArtifactOntology). 
+                      The address itself is information; the mailbox is the artifact being designated. 
+                      EmailAddresses are not person-specific; they can designate mailboxes for persons, 
+                      organizations, departments, or automated systems. Format must conform to RFC 5322 
+                      (local part is case-sensitive, domain is case-insensitive). EmailAddress follows 
+                      encoding rules (structured format with @ separator, domain resolution) making it 
+                      a Code Identifier rather than arbitrary."""@en ;
+    staging:migrationTarget "Primary: Cyber Ontology (IEEE P3195.1.1) - EmailAddress fits with existing IP Address, URI, Email Message Header patterns. Awaiting Cyber Ontology working group acceptance."@en ;
+    staging:stagingReason "Cyber Ontology already has Email Software Application and Email Message Header. EmailAddress would complete the cyber communication pattern. Proposed to Cyber WG for inclusion."@en ;
+    staging:stagingDate "2026-02-19"^^xsd:date ;
+    staging:proposalStatus "To be proposed to Cyber Ontology (IEEE P3195.1.1) 2026-Q2"@en ;
+    dcterms:created "2026-02-19"^^xsd:date ;
+    dc:creator "Global Research, Inc."@en ;
+    dcterms:source "https://datatracker.ietf.org/doc/html/rfc5322"^^xsd:anyURI ;
+    rdfs:isDefinedBy <https://purl.org/cco/staging> .
+
+
+#################################################################
+#    Success Stories - Graduated Terms
+#################################################################
+
+# NOTE: The following terms successfully graduated from Staging to Postal Address Ontology:
+# - PostalAddress → postal:PostalAddress
+# - USPostalAddress → postal:USPostalAddress
+# - StreetAddress → postal:StreetAddress
+# - CityName → postal:CityName
+# - StateName → postal:StateName
+# - CountryName → postal:CountryName
+# - PostalCode → postal:PostalCode
+#
+# This demonstrates the staging → domain migration path works as intended.
