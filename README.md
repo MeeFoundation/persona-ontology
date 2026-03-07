@@ -1,6 +1,6 @@
 # Persona Ontology
 
-The persona ontology is an application profile over existing ontologies that are used by the Mee Identity Agent. It models the domain of natural people in the Mee Identity Agent. It documents in SHACL which classes and properties from other ontologies are used to describe a person. 
+The persona ontology is an application profile over existing ontologies. It models the domain of natural people in the Mee Identity Agent. It documents in SHACL which classes and properties from other ontologies are used to describe a person. 
 
 ## Purpose
 
