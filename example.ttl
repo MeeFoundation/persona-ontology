@@ -1,0 +1,227 @@
+@prefix : <http://www.example.org/mee#> .
+@prefix persona: <http://mee.foundation/ontologies/persona#> .
+@prefix po: <https://purl.org/cco/person/> .
+@prefix postal: <https://purl.org/cco/postal-address/> .
+@prefix staging: <https://purl.org/cco/staging/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@base <http://www.example.org/mee> .
+
+<http://www.example.org/mee> rdf:type owl:Ontology ;
+    owl:imports <http://mee.foundation/ontologies/persona> ;
+    rdfs:label "Alice Walker - Example Instance Data"@en ;
+    rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
+                    Persona Ontology in practice.
+                    
+                    Person Details:
+                    - Legal Name: Margery Elizabeth Walker  
+                    - Goes By: Alice Walker
+                    - SSN: 123-45-6788
+                    - Email: awalker@gmail.com
+                    - Phone: +15108149999
+                    - Current Address: 123 Sleepy Hollow, Concord, CA 95969, USA (since Sept 2025)
+                    - Eye Color: Blue
+                    - Height: 68 inches
+                    
+                    DEMONSTRATES:
+                    - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
+                    - New properties (ont00001879 designated by, ont00001765 has text value)
+                    - Slash URIs for all domain classes
+                    - EyeColor extension usage
+                    - Structured postal address with BFO_0000178 (has continuant part)
+                    - Address history tracking with temporal intervals
+                    - Open-ended intervals for current address"""@en .
+
+
+#################################################################
+#    Alice Walker - Person Instance
+#################################################################
+
+###  Person: Alice Walker
+:Alice_Walker rdf:type owl:NamedIndividual ,
+                       <https://purl.org/cco/ont00001262> ;  # Person
+    rdfs:label "Alice Walker"@en ;
+    rdfs:comment "Person instance demonstrating peer name architecture and address history."@en ;
+    
+    # PEER NAMES (No hierarchical PersonName)
+    # Legal name: Margery Elizabeth Walker
+    # Goes by: Alice Walker
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → GivenName (legal first name)
+        rdf:type po:GivenName ;
+        <https://purl.org/cco/ont00001765> "Margery"  # has text value
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → AdditionalName (middle name)
+        rdf:type po:AdditionalName ;
+        <https://purl.org/cco/ont00001765> "Elizabeth"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
+        rdf:type po:FamilyName ;
+        <https://purl.org/cco/ont00001765> "Walker"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → AlternateName (goes by)
+        rdf:type po:AlternateName ;
+        <https://purl.org/cco/ont00001765> "Alice Walker" ;
+        rdfs:comment "Name she goes by professionally and socially"@en
+    ] ;
+    
+    # IDENTIFIERS
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → SSN
+        rdf:type po:SocialSecurityNumber ;
+        <https://purl.org/cco/ont00001765> "123-45-6788"
+    ] ;
+    
+    # CONTACT INFORMATION
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → Email
+        rdf:type staging:EmailAddress ;
+        <https://purl.org/cco/ont00001765> "awalker@gmail.com"
+    ] ;
+    
+    <https://purl.org/cco/ont00001879> [  # designated by → Phone
+        rdf:type staging:TelephoneNumber ;
+        <https://purl.org/cco/ont00001765> "+15108149999" ;
+        rdfs:comment "E.164 format (international standard)"@en
+    ] ;
+    
+    # CURRENT POSTAL ADDRESS
+    
+    <https://purl.org/cco/ont00001879> :Address_Concord ;
+    
+    # PHYSICAL CHARACTERISTICS
+    
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Height
+        rdf:type <https://purl.org/cco/ont00000367> ;  # Height (CCO Quality)
+        rdfs:comment "Height measurement: 68 inches (5'8\")"@en ;
+        <https://purl.org/cco/ont00001689> [  # has measurement
+            rdf:type <https://purl.org/cco/ont00001243> ;  # Measurement
+            <https://purl.org/cco/ont00001765> "68"^^xsd:decimal ;
+            <https://purl.org/cco/ont00001729> <http://purl.obolibrary.org/obo/UO_0000010>  # inch
+        ]
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Eye Color
+        rdf:type persona:BlueEyeColor ;
+        rdfs:comment "Eye color: Blue (using Mee extension class)"@en
+    ] .
+
+
+#################################################################
+#    Address History - Temporal Tracking
+#################################################################
+
+###  Previous Address: Boston (2020-2025)
+:Boston_Residence rdf:type owl:NamedIndividual ,
+                           postal:AddressDesignation ;
+    rdfs:label "Alice's Boston Residence (2020-2025)"@en ;
+    rdfs:comment "Alice lived at this Boston address from 2020 to 2025."@en ;
+    <http://purl.obolibrary.org/obo/BFO_0000139> :Alice_Walker ;  # has participant
+    <https://purl.org/cco/ont00001879> :Address_Boston ;  # designated by
+    <http://purl.obolibrary.org/obo/BFO_0000153> :Interval_2020_2025 .  # occupies temporal region
+
+:Interval_2020_2025 rdf:type owl:NamedIndividual ,
+                             <http://purl.obolibrary.org/obo/BFO_0000038> ;  # TemporalInterval
+    rdfs:label "2020-2025"@en ;
+    postal:hasStartDate "2020-01-01"^^xsd:date ;
+    postal:hasEndDate "2025-08-31"^^xsd:date .
+
+:Address_Boston rdf:type owl:NamedIndividual ,
+                         postal:USPostalAddress ;
+    rdfs:label "Boston Address"@en ;
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Street
+        rdf:type postal:StreetAddress ;
+        <https://purl.org/cco/ont00001765> "456 Commonwealth Ave"
+    ] ;
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → City
+        rdf:type postal:CityName ;
+        <https://purl.org/cco/ont00001765> "Boston"
+    ] ;
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → State
+        rdf:type postal:StateName ;
+        <https://purl.org/cco/ont00001765> "MA"
+    ] ;
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → ZIP
+        rdf:type postal:PostalCode ;
+        <https://purl.org/cco/ont00001765> "02215"
+    ] .
+
+
+###  Current Address: Concord (2025-present)
+:Concord_Residence rdf:type owl:NamedIndividual ,
+                            postal:AddressDesignation ;
+    rdfs:label "Alice's Concord Residence (2025-present)"@en ;
+    rdfs:comment "Alice has lived at this Concord address since September 2025. No end date indicates current residence."@en ;
+    <http://purl.obolibrary.org/obo/BFO_0000139> :Alice_Walker ;  # has participant
+    <https://purl.org/cco/ont00001879> :Address_Concord ;  # designated by
+    <http://purl.obolibrary.org/obo/BFO_0000153> :Interval_2025_Present .  # occupies temporal region
+
+:Interval_2025_Present rdf:type owl:NamedIndividual ,
+                                <http://purl.obolibrary.org/obo/BFO_0000038> ;  # TemporalInterval
+    rdfs:label "September 2025 to present"@en ;
+    rdfs:comment "Open-ended interval - absence of end date indicates current/ongoing"@en ;
+    postal:hasStartDate "2025-09-01"^^xsd:date .
+    # No postal:hasEndDate = still current
+
+
+###  Concord Address Details
+:Address_Concord rdf:type owl:NamedIndividual ,
+                          postal:USPostalAddress ;
+    rdfs:label "Concord Address"@en ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Street
+        rdf:type postal:StreetAddress ;
+        <https://purl.org/cco/ont00001765> "123 Sleepy Hollow"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → City
+        rdf:type postal:CityName ;
+        <https://purl.org/cco/ont00001765> "Concord"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → State
+        rdf:type postal:StateName ;
+        <https://purl.org/cco/ont00001765> "CA"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → ZIP
+        rdf:type postal:PostalCode ;
+        <https://purl.org/cco/ont00001765> "95969"
+    ] ;
+    
+    <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Country
+        rdf:type postal:CountryName ;
+        <https://purl.org/cco/ont00001765> "USA"
+    ] .
+
+
+#################################################################
+#    PATTERN NOTES
+#################################################################
+
+# ADDRESS HISTORY PATTERN:
+# ------------------------
+# Track N addresses over a person's lifetime with temporal bounds.
+#
+# Each address designation has:
+# - Person (BFO has participant)
+# - Address (CCO designated by)
+# - Time interval (BFO occupies temporal region)
+#   - Start date (required)
+#   - End date (optional - absence = current address)
+#
+# Example queries:
+# - "Where did Alice live in 2023?" → Boston address
+# - "Where does Alice currently live?" → Concord (no end date)
+# - "When did Alice live in Boston?" → 2020-01-01 to 2025-08-31
+# - "List all of Alice's addresses" → Boston, Concord
+#
+# Extensible for future needs:
+# - Multiple simultaneous addresses (add type/role property)
+# - Move events (add Act of Change of Residence instances)
+# - Address roles (mailing, billing, legal - add properties)
