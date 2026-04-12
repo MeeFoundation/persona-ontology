@@ -19,7 +19,7 @@
                     - SSN: 123-45-6788
                     - Email: awalker@gmail.com
                     - Phone: +15108149999
-                    - Current Address: 123 Sleepy Hollow, Concord, CA 95969, USA (since Sept 2025)
+                    - Current Address: 123 Sleepy Hollow, Paradise, CA 95969, USA (since Sept 2025)
                     - Height: 68 inches
                     
                     DEMONSTRATES:
@@ -88,7 +88,7 @@
     
     # CURRENT POSTAL ADDRESS
     
-    <https://purl.org/cco/ont00001879> :Address_Concord ;
+    <https://purl.org/cco/ont00001879> :Address_Paradise ;
     
     # PHYSICAL CHARACTERISTICS
     
@@ -143,13 +143,13 @@
     ] .
 
 
-###  Current Address: Concord (2025-present)
-:Concord_Residence rdf:type owl:NamedIndividual ,
+###  Current Address: Paradise (2025-present)
+:Paradise_Residence rdf:type owl:NamedIndividual ,
                             cco:ent00000016 ;
-    rdfs:label "Alice's Concord Residence (2025-present)"@en ;
-    rdfs:comment "Alice has lived at this Concord address since September 2025. No end date indicates current residence."@en ;
+    rdfs:label "Alice's Paradise Residence (2025-present)"@en ;
+    rdfs:comment "Alice has lived at this Paradise address since September 2025. No end date indicates current residence."@en ;
     <http://purl.obolibrary.org/obo/BFO_0000139> :Alice_Walker ;  # has participant
-    <https://purl.org/cco/ont00001879> :Address_Concord ;  # designated by
+    <https://purl.org/cco/ont00001879> :Address_Paradise ;  # designated by
     <http://purl.obolibrary.org/obo/BFO_0000153> :Interval_2025_Present .  # occupies temporal region
 
 :Interval_2025_Present rdf:type owl:NamedIndividual ,
@@ -160,10 +160,10 @@
     # No cco:ent00000018 = still current
 
 
-###  Concord Address Details
-:Address_Concord rdf:type owl:NamedIndividual ,
+###  Paradise Address Details
+:Address_Paradise rdf:type owl:NamedIndividual ,
                           cco:ent00000010 ;
-    rdfs:label "Concord Address"@en ;
+    rdfs:label "Paradise Address"@en ;
     
     <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → Street
         rdf:type cco:ent00000011 ;
@@ -172,7 +172,7 @@
     
     <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → City
         rdf:type cco:ent00000012 ;
-        <https://purl.org/cco/ont00001765> "Concord"
+        <https://purl.org/cco/ont00001765> "Paradise"
     ] ;
     
     <http://purl.obolibrary.org/obo/BFO_0000178> [  # has continuant part → State
@@ -208,9 +208,9 @@
 #
 # Example queries:
 # - "Where did Alice live in 2023?" → Boston address
-# - "Where does Alice currently live?" → Concord (no end date)
+# - "Where does Alice currently live?" → Paradise (no end date)
 # - "When did Alice live in Boston?" → 2020-01-01 to 2025-08-31
-# - "List all of Alice's addresses" → Boston, Concord
+# - "List all of Alice's addresses" → Boston, Paradise
 #
 # Extensible for future needs:
 # - Multiple simultaneous addresses (add type/role property)
