@@ -9,6 +9,8 @@
 
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
+    dc:date "2026-04-12"^^xsd:date ;
+    owl:versionInfo "Version 3.0.1 - added eye color (blue and grey hair color"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -21,6 +23,8 @@
                     - Phone: +15108149999
                     - Current Address: 123 Sleepy Hollow, Paradise, CA 95969, USA (since Sept 2025)
                     - Height: 68 inches
+                    - Eye Color: Blue
+                    - Hair Color: Grey
                     
                     DEMONSTRATES:
                     - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
@@ -100,6 +104,17 @@
             <https://purl.org/cco/ont00001765> "68"^^xsd:decimal ;
             <https://purl.org/cco/ont00001729> <http://purl.obolibrary.org/obo/UO_0000010>  # inch
         ]
+    ] ;
+
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Eye Color
+        rdf:type cco:ent00000040 ;  # Blue Eye Color
+        rdfs:comment "Eye color: Blue"@en
+    ] ;
+
+    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Hair Color
+        rdf:type cco:ont00000026 ;  # Hair Color
+        <https://purl.org/cco/ont00001765> "grey" ;  # has text value
+        rdfs:comment "Hair color: Grey"@en
     ] .
 
 
