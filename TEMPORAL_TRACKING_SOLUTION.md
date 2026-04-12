@@ -28,10 +28,10 @@ Each address in a person's history is modeled as an **AddressDesignation** with:
     postal:hasStartDate "2020-01-01"^^xsd:date ;
     postal:hasEndDate "2025-08-31"^^xsd:date .
 
-# Alice lives in Concord from 2025-present
-:Concord_Residence rdf:type postal:AddressDesignation ;
+# Alice lives in Paradise from 2025-present
+:Paradise_Residence rdf:type postal:AddressDesignation ;
     BFO_0000139 :Alice_Walker ;
-    ont00001879 :Address_Concord ;
+    ont00001879 :Address_Paradise ;
     BFO_0000153 :Interval_2025_Present .
 
 :Interval_2025_Present rdf:type BFO:TemporalInterval ;
@@ -116,10 +116,10 @@ If needed later, this pattern can be extended to support:
    - BFO_0000038 (TemporalInterval)
 3. Verify instances created:
    - :Boston_Residence (2020-2025)
-   - :Concord_Residence (2025-present)
+   - :Paradise_Residence (2025-present)
 4. Verify temporal intervals:
    - Boston has start AND end date
-   - Concord has start date ONLY (current)
+   - Paradise has start date ONLY (current)
 
 ## SHACL Validation (Optional)
 
