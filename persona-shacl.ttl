@@ -7,6 +7,7 @@
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix cco: <https://purl.org/cco/> .
 @prefix mia: <http://www.example.org/mia#> .
+@prefix persona: <http://mee.foundation/ontologies/persona#> .
 
 # Imports Mee Identity Agent (MIA)'s Application Ontology (which imports the domains)
 <http://www.example.org/shapes> rdf:type owl:Ontology ;
@@ -138,6 +139,37 @@
         sh:qualifiedValueShape [ sh:class cco:ent00000010 ] ;
         sh:qualifiedMaxCount 1 ;
         sh:message "USPostalAddress is optional; if present and typed, it must validate."@en
+    ] ;
+
+    # Optional: hair color (0..1). Validity enforced by :HairColorShape.
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000196> ;  # bearer of
+        sh:qualifiedValueShape [ sh:class cco:ont00000026 ] ;  # Hair Color
+        sh:qualifiedMaxCount 1 ;
+        sh:message "At most one HairColor may be asserted on a Person."@en
+    ] ;
+
+    # Optional: mother relationship (0..many). Range must be a Person.
+    sh:property [
+        sh:path cco:ont00001786 ;  # is mother of
+        sh:class <https://purl.org/cco/ont00001262> ;  # Person
+        sh:message "The object of 'is mother of' must be a Person."@en
+    ] ;
+
+    # Optional: has mother (0..1). Range must be a Person.
+    sh:property [
+        sh:path cco:ont00001780 ;  # has mother
+        sh:class <https://purl.org/cco/ont00001262> ;  # Person
+        sh:maxCount 1 ;
+        sh:message "The object of 'has mother' must be a Person."@en
+    ] ;
+
+    # Optional: social network (0..1). Range must be a Social Network.
+    sh:property [
+        sh:path persona:hasSocialNetwork ;
+        sh:class cco:ont00001183 ;  # Social Network
+        sh:maxCount 1 ;
+        sh:message "A Person may have at most one Social Network; it must be of type Social Network."@en
     ] .
 
 #################################################################
@@ -297,4 +329,54 @@
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:message "If specified, must be USA/US/UNITED STATES (controlled list)."@en
+    ] .
+
+#################################################################
+#  Hair Color validation
+#################################################################
+
+:HairColorShape
+    a sh:NodeShape ;
+    sh:targetClass cco:ont00000026 ;  # Hair Color
+    sh:message "HairColor must have exactly one text value (a non-empty string)."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "HairColor must have exactly one non-empty string text value."@en
+    ] .
+
+#################################################################
+#  AlternateName validation (maiden name, preferred name, etc.)
+#################################################################
+
+:AlternateNameShape
+    a sh:NodeShape ;
+    sh:targetClass cco:ent00000006 ;  # AlternateName
+    sh:message "AlternateName must have exactly one text value (a non-empty string)."@en ;
+    sh:property [
+        sh:path <https://purl.org/cco/ont00001765> ;  # has text value
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "AlternateName must have exactly one non-empty string text value."@en
+    ] .
+
+#################################################################
+#  Social Network validation
+#################################################################
+
+:SocialNetworkShape
+    a sh:NodeShape ;
+    sh:targetClass cco:ont00001183 ;  # Social Network
+    sh:message "Social Network members, if present, must be Persons."@en ;
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000115> ;  # has member part
+        sh:class <https://purl.org/cco/ont00001262> ;  # Person
+        sh:message "All Social Network member parts must be Persons."@en
     ] .

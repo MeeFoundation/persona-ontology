@@ -55,6 +55,15 @@ Classes and properties use numeric IRIs. The most common:
 - `ent00000010` = PostalAddress; `ent00000016` = AddressDesignation
 - `BFO_0000038` = TemporalInterval; `ent00000017/18` = hasStartDate/hasEndDate
 
+## Keeping Files in Sync
+
+Whenever changes are made to `example.ttl` or `persona.ttl`, `persona-shacl.ttl` must be updated to match:
+
+- **New property usage in `example.ttl`** (e.g., a new physical characteristic, relationship, or identifier added to a Person instance) → add or extend a SHACL shape to validate that property on the relevant target class.
+- **New class or property defined in `persona.ttl`** (e.g., `persona:hasSocialNetwork`) → add a SHACL shape that constrains how instances of the domain class may or must use it.
+
+Always update `persona-shacl.ttl` in the same edit session as the change that triggers it.
+
 ## Validation
 
 **SHACL validation** (e.g., using Apache Jena's `shaclvalidate`):

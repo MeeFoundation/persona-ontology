@@ -110,6 +110,14 @@ persona:usagePattern rdf:type owl:AnnotationProperty ;
     rdfs:comment """Describes how this application uses a particular class or property."""@en ;
     rdfs:domain owl:Class .
 
+persona:hasSocialNetwork rdf:type owl:ObjectProperty ;
+    rdfs:domain <https://purl.org/cco/ont00001262> ;  # Person
+    rdfs:range cco:ont00001183 ;                       # Social Network
+    rdfs:label "has social network"@en ;
+    rdfs:comment """Links a Person to their Social Network — the set of other people
+                    with whom they have relationships. The Person is not a member of
+                    the network; the network contains only the people they relate to."""@en .
+
 
 #################################################################
 #    Usage Pattern Documentation on Specific Classes

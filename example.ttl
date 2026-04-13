@@ -10,7 +10,7 @@
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.2 - maiden name"@en ;
+    owl:versionInfo "Version 3.0.3 - social network, parent/child relationship"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -26,10 +26,13 @@
                     - Height: 68 inches
                     - Eye Color: Blue
                     - Hair Color: Grey
-                    
+                    - Son: Paul Walker
+
                     DEMONSTRATES:
                     - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
                     - Maiden name represented as AlternateName (covers former legal names per CCO scope note)
+                    - Parent/child relationships using CCO AgentOntology properties (is parent of / is child of)
+                    - Social network modeled as CCO Social Network (Group of Agents) with BFO has member part
                     - New properties (ont00001879 designated by, ont00001765 has text value)
                     - Slash URIs for all domain classes
                     - Structured postal address with BFO_0000178 (has continuant part)
@@ -123,7 +126,15 @@
         rdf:type cco:ont00000026 ;  # Hair Color
         <https://purl.org/cco/ont00001765> "grey" ;  # has text value
         rdfs:comment "Hair color: Grey"@en
-    ] .
+    ] ;
+
+    # FAMILY RELATIONSHIPS
+
+    cco:ont00001786 :Paul_Walker ;  # is mother of
+
+    # SOCIAL NETWORK
+
+    persona:hasSocialNetwork :Alice_Social_Network .
 
 
 #################################################################
@@ -212,6 +223,39 @@
         rdf:type cco:ent00000014 ;
         <https://purl.org/cco/ont00001765> "USA"
     ] .
+
+
+#################################################################
+#    Paul Walker - Person Instance (Alice's son)
+#################################################################
+
+:Paul_Walker rdf:type owl:NamedIndividual ,
+                      <https://purl.org/cco/ont00001262> ;  # Person
+    rdfs:label "Paul Walker"@en ;
+
+    <https://purl.org/cco/ont00001879> [  # designated by → GivenName
+        rdf:type cco:ent00000002 ;
+        <https://purl.org/cco/ont00001765> "Paul"
+    ] ;
+
+    <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
+        rdf:type cco:ent00000004 ;
+        <https://purl.org/cco/ont00001765> "Walker"
+    ] ;
+
+    # FAMILY RELATIONSHIPS
+
+    cco:ont00001780 :Alice_Walker .  # has mother
+
+
+#################################################################
+#    Alice's Social Network
+#################################################################
+
+:Alice_Social_Network rdf:type owl:NamedIndividual ,
+                               cco:ont00001183 ;  # Social Network
+    rdfs:label "Alice Walker's set of connections to people"@en ;
+    <http://purl.obolibrary.org/obo/BFO_0000115> :Paul_Walker .  # has member part
 
 
 #################################################################
