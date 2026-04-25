@@ -11,7 +11,7 @@
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.5 - social network partitioned into Family, Colleague, Other sub-groups"@en ;
+    owl:versionInfo "Version 3.0.6 - add Friend sub-group to social network"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -33,7 +33,7 @@
                     - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
                     - Maiden name represented as AlternateName (covers former legal names per CCO scope note)
                     - Parent/child relationships using CCO AgentOntology properties (is parent of / is child of)
-                    - Social network partitioned into Family, Colleague, Other sub-groups (BFO has part) with possible intersection
+                    - Social network partitioned into Family, Friend, Colleague, Other sub-groups (BFO has part) with possible intersection
                     - New properties (ont00001879 designated by, ont00001765 has text value)
                     - Slash URIs for all domain classes
                     - Structured postal address with BFO_0000178 (has continuant part)
@@ -260,6 +260,7 @@
                                cco:ont00001183 ;  # Social Network
     rdfs:label "Alice Walker's social network"@en ;
     <http://purl.obolibrary.org/obo/BFO_0000051> :Alice_Family_Network ;     # has part → Family sub-group
+    <http://purl.obolibrary.org/obo/BFO_0000051> :Alice_Friend_Network ;     # has part → Friend sub-group
     <http://purl.obolibrary.org/obo/BFO_0000051> :Alice_Colleague_Network ;  # has part → Colleague sub-group
     <http://purl.obolibrary.org/obo/BFO_0000051> :Alice_Other_Network .      # has part → Other sub-group
 
@@ -267,6 +268,10 @@
                                cco:ont00001183 ;  # Social Network
     rdfs:label "Alice Walker's family connections"@en ;
     <http://purl.obolibrary.org/obo/BFO_0000115> :Paul_Walker .  # has member part
+
+:Alice_Friend_Network rdf:type owl:NamedIndividual ,
+                              cco:ont00001183 ;  # Social Network
+    rdfs:label "Alice Walker's friend connections"@en .
 
 :Alice_Colleague_Network rdf:type owl:NamedIndividual ,
                                   cco:ont00001183 ;  # Social Network
