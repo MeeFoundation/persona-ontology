@@ -16,7 +16,7 @@
     owl:imports <https://purl.org/cco/address> ;
     owl:imports <https://purl.org/cco/staging> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.2 - added persona:CareerRole class"@en ;
+    owl:versionInfo "Version 3.0.3 - added Founder, Employee, Advisor, Contributor subclasses of CareerRole"@en ;
     rdfs:label "Mee Foundation Persona Ontology"@en ;
     rdfs:comment """Persona Ontology for the Mee Identity Agent.
                     
@@ -114,6 +114,26 @@ persona:CareerRole rdf:type owl:Class ;
     rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000023> ;  # BFO:Role
     rdfs:label "Career Role"@en ;
     rdfs:comment "A role that a person plays in the context of their professional career (e.g., founder, employee)."@en .
+
+persona:Founder rdf:type owl:Class ;
+    rdfs:subClassOf persona:CareerRole ;
+    rdfs:label "Founder"@en ;
+    rdfs:comment "A career role played by a person who establishes an organization or venture."@en .
+
+persona:Employee rdf:type owl:Class ;
+    rdfs:subClassOf persona:CareerRole ;
+    rdfs:label "Employee"@en ;
+    rdfs:comment "A career role played by a person employed by an organization."@en .
+
+persona:Advisor rdf:type owl:Class ;
+    rdfs:subClassOf persona:CareerRole ;
+    rdfs:label "Advisor"@en ;
+    rdfs:comment "A career role played by a person who provides expert guidance to an organization."@en .
+
+persona:Contributor rdf:type owl:Class ;
+    rdfs:subClassOf persona:CareerRole ;
+    rdfs:label "Contributor"@en ;
+    rdfs:comment "A career role played by a person who contributes to a project or organization without being a full employee."@en .
 
 
 persona:hasSocialNetwork rdf:type owl:ObjectProperty ;
