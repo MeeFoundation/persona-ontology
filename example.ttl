@@ -11,7 +11,7 @@
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.10 - replace persona:Organization with cco:ont00001180 on XYZ_Corp"@en ;
+    owl:versionInfo "Version 3.0.13 - rename Paul to Paula Walker; Paula is now Alice's mother"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -27,7 +27,7 @@
                     - Height: 68 inches
                     - Eye Color: Blue
                     - Hair Color: Grey
-                    - Son: Paul Walker
+                    - Mother: Paula Walker
 
                     DEMONSTRATES:
                     - Peer name architecture (GivenName, AdditionalName, FamilyName as peers)
@@ -134,9 +134,14 @@
         ]
     ] ;
 
+    # CAREER ROLES
+
+    <http://purl.obolibrary.org/obo/BFO_0000196> :FounderOfXYZ ;    # bearer of
+    <http://purl.obolibrary.org/obo/BFO_0000196> :EmployeeOfAcme ;  # bearer of
+
     # FAMILY RELATIONSHIPS
 
-    cco:ont00001786 :Paul_Walker ;  # is mother of
+    cco:ont00001780 :Paula_Walker ;  # has mother
 
     # SOCIAL NETWORK
 
@@ -232,26 +237,45 @@
 
 
 #################################################################
-#    Paul Walker - Person Instance (Alice's son)
+#    Paula Walker - Person Instance (Alice's mother)
 #################################################################
 
-:Paul_Walker rdf:type owl:NamedIndividual ,
+:Paula_Walker rdf:type owl:NamedIndividual ,
                       <https://purl.org/cco/ont00001262> ;  # Person
-    rdfs:label "Paul Walker"@en ;
+    rdfs:label "Paula Walker"@en ;
 
     <https://purl.org/cco/ont00001879> [  # designated by → GivenName
         rdf:type cco:ent00000002 ;
-        <https://purl.org/cco/ont00001765> "Paul"
+        <https://purl.org/cco/ont00001765> "Paula"
     ] ;
 
     <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
         rdf:type cco:ent00000004 ;
         <https://purl.org/cco/ont00001765> "Walker"
+    ] .
+
+
+#################################################################
+#    Greg Klarney - Person Instance (Alice's colleague at Acme)
+#################################################################
+
+:Greg_Klarney rdf:type owl:NamedIndividual ,
+                       <https://purl.org/cco/ont00001262> ;  # Person
+    rdfs:label "Greg Klarney"@en ;
+
+    <https://purl.org/cco/ont00001879> [  # designated by → GivenName
+        rdf:type cco:ent00000002 ;
+        <https://purl.org/cco/ont00001765> "Greg"
     ] ;
 
-    # FAMILY RELATIONSHIPS
+    <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
+        rdf:type cco:ent00000004 ;
+        <https://purl.org/cco/ont00001765> "Klarney"
+    ] ;
 
-    cco:ont00001780 :Alice_Walker .  # has mother
+    # CAREER ROLES
+
+    <http://purl.obolibrary.org/obo/BFO_0000196> :Greg_EmployeeOfAcme .  # bearer of
 
 
 #################################################################
@@ -269,7 +293,7 @@
 :Alice_Family_Network rdf:type owl:NamedIndividual ,
                                cco:ont00001183 ;  # Social Network
     rdfs:label "Alice Walker's family connections"@en ;
-    <http://purl.obolibrary.org/obo/BFO_0000115> :Paul_Walker .  # has member part
+    <http://purl.obolibrary.org/obo/BFO_0000115> :Paula_Walker .  # has member part
 
 :Alice_Friends_Network rdf:type owl:NamedIndividual ,
                               cco:ont00001183 ;  # Social Network
@@ -278,7 +302,8 @@
 :Alice_Colleagues_Network rdf:type owl:NamedIndividual ,
                                   cco:ont00001183 ;  # Social Network
     rdfs:label "Alice Walker's colleagues connections"@en ;
-    <http://purl.obolibrary.org/obo/BFO_0000115> :Paul_Walker .  # has member part (intersects with Family)
+    <http://purl.obolibrary.org/obo/BFO_0000115> :Paula_Walker ;   # has member part (intersects with Family)
+    <http://purl.obolibrary.org/obo/BFO_0000115> :Greg_Klarney .  # has member part
 
 :Alice_Other_Network rdf:type owl:NamedIndividual ,
                               cco:ont00001183 ;  # Social Network
@@ -293,16 +318,24 @@
                    cco:ont00001180 ;  # Organization (CCO)
     rdfs:label "XYZ Corp"@en .
 
+:Acme_Corp rdf:type owl:NamedIndividual ,
+                    cco:ont00001180 ;  # Organization (CCO)
+    rdfs:label "Acme Corp"@en .
+
 :FounderOfXYZ rdf:type owl:NamedIndividual ,
                        persona:Founder ;
     rdfs:label "Founder of XYZ"@en ;
-    <http://purl.obolibrary.org/obo/BFO_0000197> :Alice_Walker ;  # inheres in
     persona:roleInOrganization :XYZ_Corp .
 
 :EmployeeOfAcme rdf:type owl:NamedIndividual ,
                          persona:Employee ;
     rdfs:label "Employee of Acme"@en ;
-    <http://purl.obolibrary.org/obo/BFO_0000197> :Alice_Walker .  # inheres in
+    persona:roleInOrganization :Acme_Corp .
+
+:Greg_EmployeeOfAcme rdf:type owl:NamedIndividual ,
+                              persona:Employee ;
+    rdfs:label "Greg Klarney's Employee of Acme role"@en ;
+    persona:roleInOrganization :Acme_Corp .
 
 
 #################################################################

@@ -12,7 +12,7 @@
 # Imports Mee Identity Agent (MIA)'s Application Ontology (which imports the domains)
 <http://www.example.org/shapes> rdf:type owl:Ontology ;
     owl:imports <http://www.example.org/mia> ;
-    owl:versionInfo "Version 3.0.6 - replace persona:Organization with cco:ont00001180 in shapes"@en ;
+    owl:versionInfo "Version 3.0.7 - career role constraint moved to Person (bearer of) direction"@en ;
     rdfs:label "Mee Identity Agent (MIA)'s SHACL Validation Shapes"@en ;
     rdfs:comment """SHACL validation shapes for the Mee Identty Agent.
                     
@@ -171,6 +171,14 @@
         sh:class cco:ont00001183 ;  # Social Network
         sh:maxCount 1 ;
         sh:message "A Person may have at most one Social Network; it must be of type Social Network."@en
+    ] ;
+
+    # Optional: career roles (0..many). Range must be a CareerRole.
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/BFO_0000196> ;  # bearer of
+        sh:qualifiedValueShape [ sh:class persona:CareerRole ] ;
+        sh:qualifiedMinCount 0 ;
+        sh:message "Career roles borne by a Person must be instances of CareerRole."@en
     ] .
 
 #################################################################
@@ -412,14 +420,7 @@
 :CareerRoleShape
     a sh:NodeShape ;
     sh:targetClass persona:CareerRole ;
-    sh:message "CareerRole must inhere in exactly one Person; roleInOrganization must point to an Organization."@en ;
-    sh:property [
-        sh:path <http://purl.obolibrary.org/obo/BFO_0000197> ;  # inheres in
-        sh:class <https://purl.org/cco/ont00001262> ;  # Person
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        sh:message "A CareerRole must inhere in exactly one Person."@en
-    ] ;
+    sh:message "CareerRole validation: roleInOrganization must point to an Organization."@en ;
     sh:property [
         sh:path persona:roleInOrganization ;
         sh:class cco:ont00001180 ;  # Organization (CCO)
