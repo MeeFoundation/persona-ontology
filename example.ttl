@@ -11,7 +11,7 @@
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.14 - rename Greg Klarney to Bob Johnston"@en ;
+    owl:versionInfo "Version 3.0.16 - fix Height IRI to cco:ont00000967 (was ont00000367, Act of Military Training Instruction)"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -110,15 +110,8 @@
     
     # PHYSICAL CHARACTERISTICS
     
-    <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Height
-        rdf:type <https://purl.org/cco/ont00000367> ;  # Height (CCO Quality)
-        rdfs:comment "Height measurement: 68 inches (5'8\")"@en ;
-        <https://purl.org/cco/ont00001689> [  # has measurement
-            rdf:type <https://purl.org/cco/ont00001243> ;  # Measurement
-            <https://purl.org/cco/ont00001765> "68"^^xsd:decimal ;
-            <https://purl.org/cco/ont00001729> <http://purl.obolibrary.org/obo/UO_0000010>  # inch
-        ]
-    ] ;
+    <http://purl.obolibrary.org/obo/BFO_0000196> :Alice_Height ;               # bearer of → Height quality
+    <http://purl.obolibrary.org/obo/BFO_0000196> :Alice_Height_Measurement ;  # bearer of → Height measurement ICE
 
     <http://purl.obolibrary.org/obo/BFO_0000196> [  # bearer of → Eye Color
         rdf:type cco:ent00000040 ;  # Blue Eye Color
@@ -146,6 +139,21 @@
     # SOCIAL NETWORK
 
     persona:hasSocialNetwork :Alice_Social_Network .
+
+
+#################################################################
+#    Height Measurement
+#################################################################
+
+:Alice_Height rdf:type owl:NamedIndividual ,
+                       <https://purl.org/cco/ont00000967> ;  # Height (CCO Quality)
+    rdfs:label "Alice Walker's height"@en .
+
+:Alice_Height_Measurement rdf:type owl:NamedIndividual ,
+                                   <https://purl.org/cco/ont00001022> ;  # Ratio Measurement ICE
+    <https://purl.org/cco/ont00001983> :Alice_Height ;    # is a ratio measurement of
+    <https://purl.org/cco/ont00001863> <https://purl.org/cco/ont00001677> ;  # uses measurement unit: Inch
+    <https://purl.org/cco/ont00001769> "68"^^xsd:decimal .  # has decimal value
 
 
 #################################################################
