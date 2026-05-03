@@ -11,7 +11,7 @@
 <http://www.example.org/mee> rdf:type owl:Ontology ;
     owl:imports <http://mee.foundation/ontologies/persona> ;
     dc:date "2026-04-12"^^xsd:date ;
-    owl:versionInfo "Version 3.0.13 - rename Paul to Paula Walker; Paula is now Alice's mother"@en ;
+    owl:versionInfo "Version 3.0.14 - rename Greg Klarney to Bob Johnston"@en ;
     rdfs:label "Alice Walker - Example Instance Data"@en ;
     rdfs:comment """Example instance data for Alice Walker demonstrating the Mee Foundation 
                     Persona Ontology in practice.
@@ -256,26 +256,26 @@
 
 
 #################################################################
-#    Greg Klarney - Person Instance (Alice's colleague at Acme)
+#    Bob Johnston - Person Instance (Alice's colleague at Acme)
 #################################################################
 
-:Greg_Klarney rdf:type owl:NamedIndividual ,
+:Bob_Johnston rdf:type owl:NamedIndividual ,
                        <https://purl.org/cco/ont00001262> ;  # Person
-    rdfs:label "Greg Klarney"@en ;
+    rdfs:label "Bob Johnston"@en ;
 
     <https://purl.org/cco/ont00001879> [  # designated by → GivenName
         rdf:type cco:ent00000002 ;
-        <https://purl.org/cco/ont00001765> "Greg"
+        <https://purl.org/cco/ont00001765> "Bob"
     ] ;
 
     <https://purl.org/cco/ont00001879> [  # designated by → FamilyName
         rdf:type cco:ent00000004 ;
-        <https://purl.org/cco/ont00001765> "Klarney"
+        <https://purl.org/cco/ont00001765> "Johnston"
     ] ;
 
     # CAREER ROLES
 
-    <http://purl.obolibrary.org/obo/BFO_0000196> :Greg_EmployeeOfAcme .  # bearer of
+    <http://purl.obolibrary.org/obo/BFO_0000196> :Bob_EmployeeOfAcme .  # bearer of
 
 
 #################################################################
@@ -303,7 +303,7 @@
                                   cco:ont00001183 ;  # Social Network
     rdfs:label "Alice Walker's colleagues connections"@en ;
     <http://purl.obolibrary.org/obo/BFO_0000115> :Paula_Walker ;   # has member part (intersects with Family)
-    <http://purl.obolibrary.org/obo/BFO_0000115> :Greg_Klarney .  # has member part
+    <http://purl.obolibrary.org/obo/BFO_0000115> :Bob_Johnston .  # has member part
 
 :Alice_Other_Network rdf:type owl:NamedIndividual ,
                               cco:ont00001183 ;  # Social Network
@@ -332,9 +332,9 @@
     rdfs:label "Employee of Acme"@en ;
     persona:roleInOrganization :Acme_Corp .
 
-:Greg_EmployeeOfAcme rdf:type owl:NamedIndividual ,
-                              persona:Employee ;
-    rdfs:label "Greg Klarney's Employee of Acme role"@en ;
+:Bob_EmployeeOfAcme rdf:type owl:NamedIndividual ,
+                             persona:Employee ;
+    rdfs:label "Bob Johnston's Employee of Acme role"@en ;
     persona:roleInOrganization :Acme_Corp .
 
 
